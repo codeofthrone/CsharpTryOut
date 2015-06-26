@@ -1,11 +1,9 @@
-﻿using Gtk;
-using System;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using excel = Microsoft.Office.Interop.Excel;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 
 namespace WindowsFormsApplication1
 {
@@ -96,8 +94,61 @@ namespace WindowsFormsApplication1
             conn.Close();
         }
 
+        protected Point TranslateZoomMousePosition(Point coordinates)
+        {
+            // test to make sure our image is not null
+            if (sqlpictureBox1.Image == null) return coordinates;
+            // Make sure our control width and height are not 0 and our 
+            // image width and height are not 0
+            if (sqlpictureBox1.Width == 0 || sqlpictureBox1.Height == 0 || sqlpictureBox1.Image.Width == 0 || sqlpictureBox1.Image.Height == 0) return coordinates;
+            // This is the one that gets a little tricky. Essentially, need to check 
+            // the aspect ratio of the image to the aspect ratio of the control
+            // to determine how it is being rendered
+            float imageAspect = (float)sqlpictureBox1.Image.Width / sqlpictureBox1.Image.Height;
+            float controlAspect = (float)sqlpictureBox1.Width / sqlpictureBox1.Height;
+            float newX = coordinates.X;
+            float newY = coordinates.Y;
+            if (imageAspect > controlAspect)
+            {
+                // This means that we are limited by width, 
+                // meaning the image fills up the entire control from left to right
+                float ratioWidth = (float)sqlpictureBox1.Image.Width / sqlpictureBox1.Width;
+                newX *= ratioWidth;
+                float scale = (float)sqlpictureBox1.Width / sqlpictureBox1.Image.Width;
+                float displayHeight = scale * sqlpictureBox1.Image.Height;
+                float diffHeight = sqlpictureBox1.Height - displayHeight;
+                diffHeight /= 2;
+                newY -= diffHeight;
+                newY /= scale;
+                // > diff   <diff + image size    
+                if (coordinates.Y  > (int)Math.Abs(diffHeight) && coordinates.Y < (int)Math.Abs(diffHeight)+ displayHeight)
+                {
+                    return new Point((int)newX, (int)newY);
+                }
 
-		private void SelectSource_Click(object sender, EventArgs e)
+            }
+            else
+            {
+                // This means that we are limited by height, 
+                // meaning the image fills up the entire control from top to bottom
+                float ratioHeight = (float)sqlpictureBox1.Image.Height / sqlpictureBox1.Height;
+                newY *= ratioHeight;
+                float scale = (float)sqlpictureBox1.Height / sqlpictureBox1.Image.Height;
+                float displayWidth = scale * sqlpictureBox1.Image.Width;
+                float diffWidth = sqlpictureBox1.Width - displayWidth;
+                diffWidth /= 2;
+                newX -= diffWidth;
+                newX /= scale;
+                if (coordinates.X > (int)Math.Abs(diffWidth) && coordinates.X < (int)Math.Abs(diffWidth) + displayWidth)
+                {
+                    return new Point((int)newX, (int)newY);
+                }
+
+            }
+            return new Point();
+        }
+
+        private void SelectSource_Click(object sender, EventArgs e)
 		{
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             string programFiles = Path.GetDirectoryName("C:\\Users\\Owen_Ko\\Documents\\p+\\");
@@ -470,16 +521,15 @@ namespace WindowsFormsApplication1
 
         private void sqlpictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-
             Point sqlcontrolRelative = sqlpictureBox1.PointToClient(MousePosition);
-            // Size of the image inside the picture box
-            Size sqlimageSize = sqlpictureBox1.Image.Size;
-            // Size of the picture box
-            Size sqlboxSize = sqlpictureBox1.Size;
-
-            Point sqlimagePosition = new Point((sqlimageSize.Width / sqlboxSize.Width) * sqlcontrolRelative.X,
-                                            (sqlimageSize.Height / sqlboxSize.Height) * sqlcontrolRelative.Y);
-            sqlPointlabel1.Text = string.Format("X: {0}, Y: {1}", (int)sqlimagePosition.X, (int)sqlimagePosition.Y);
+            if (TranslateZoomMousePosition(sqlcontrolRelative).X != 0 || TranslateZoomMousePosition(sqlcontrolRelative).Y != 0)
+            {
+                sqlPointlabel1.Text = string.Format("X: {0}, Y: {1}", TranslateZoomMousePosition(sqlcontrolRelative).X, TranslateZoomMousePosition(sqlcontrolRelative).Y);
+            }
+            else
+            {
+                sqlPointlabel1.Text = "";
+            }
         }
 
         private void sqlExitbutton1_Click(object sender, EventArgs e)

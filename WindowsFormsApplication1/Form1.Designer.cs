@@ -212,9 +212,9 @@
             this.sqlPointlabel1.AutoSize = true;
             this.sqlPointlabel1.Location = new System.Drawing.Point(7, 400);
             this.sqlPointlabel1.Name = "sqlPointlabel1";
-            this.sqlPointlabel1.Size = new System.Drawing.Size(33, 12);
+            this.sqlPointlabel1.Size = new System.Drawing.Size(70, 12);
             this.sqlPointlabel1.TabIndex = 21;
-            this.sqlPointlabel1.Text = "label1";
+            this.sqlPointlabel1.Text = "sqlPointlabel1";
             // 
             // sqlPBlabel9
             // 
@@ -399,6 +399,7 @@
             // 
             // sqlpictureBox1
             // 
+            this.sqlpictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.sqlpictureBox1.Location = new System.Drawing.Point(6, 6);
             this.sqlpictureBox1.Name = "sqlpictureBox1";
             this.sqlpictureBox1.Size = new System.Drawing.Size(521, 387);
