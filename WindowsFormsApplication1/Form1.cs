@@ -470,15 +470,16 @@ namespace WindowsFormsApplication1
 
         private void sqlpictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            //Point sqlcontrolRelative = sqlpictureBox1.PointToClient(MousePosition);
-            //// Size of the image inside the picture box
-            //Size sqlimageSize = sqlpictureBox1.Image.Size;
-            //// Size of the picture box
-            //Size sqlboxSize = sqlpictureBox1.Size;
 
-            //Point sqlimagePosition = new Point((sqlimageSize.Width / sqlboxSize.Width) * sqlcontrolRelative.X,
-            //                                (sqlimageSize.Height / sqlboxSize.Height) * sqlcontrolRelative.Y);
-            //sqlPointlabel1.Text = string.Format("X: {0}, Y: {1}", (int)sqlimagePosition.X, (int)sqlimagePosition.Y);
+            Point sqlcontrolRelative = sqlpictureBox1.PointToClient(MousePosition);
+            // Size of the image inside the picture box
+            Size sqlimageSize = sqlpictureBox1.Image.Size;
+            // Size of the picture box
+            Size sqlboxSize = sqlpictureBox1.Size;
+
+            Point sqlimagePosition = new Point((sqlimageSize.Width / sqlboxSize.Width) * sqlcontrolRelative.X,
+                                            (sqlimageSize.Height / sqlboxSize.Height) * sqlcontrolRelative.Y);
+            sqlPointlabel1.Text = string.Format("X: {0}, Y: {1}", (int)sqlimagePosition.X, (int)sqlimagePosition.Y);
         }
 
         private void sqlExitbutton1_Click(object sender, EventArgs e)
