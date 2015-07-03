@@ -39,19 +39,13 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.sqlcheckBox5 = new System.Windows.Forms.CheckBox();
+            this.sqlcheckBox6 = new System.Windows.Forms.CheckBox();
+            this.sqlcheckBox3 = new System.Windows.Forms.CheckBox();
+            this.sqlcheckBox4 = new System.Windows.Forms.CheckBox();
+            this.sqlcheckBox2 = new System.Windows.Forms.CheckBox();
+            this.sqlcheckBox1 = new System.Windows.Forms.CheckBox();
             this.sqlPointlabel1 = new System.Windows.Forms.Label();
-            this.sqlPBlabel9 = new System.Windows.Forms.Label();
-            this.sqlPBlabel10 = new System.Windows.Forms.Label();
-            this.sqlPBlabel11 = new System.Windows.Forms.Label();
-            this.sqlPBlabel12 = new System.Windows.Forms.Label();
-            this.sqlPBlabel5 = new System.Windows.Forms.Label();
-            this.sqlPBlabel6 = new System.Windows.Forms.Label();
-            this.sqlPBlabel7 = new System.Windows.Forms.Label();
-            this.sqlPBlabel8 = new System.Windows.Forms.Label();
-            this.sqlPBlabel3 = new System.Windows.Forms.Label();
-            this.sqlPBlabel4 = new System.Windows.Forms.Label();
-            this.sqlPBlabel2 = new System.Windows.Forms.Label();
-            this.sqlPBlabel1 = new System.Windows.Forms.Label();
             this.sqlCurrentlabel2 = new System.Windows.Forms.Label();
             this.sqlCurrentlabel1 = new System.Windows.Forms.Label();
             this.sqlExitbutton1 = new System.Windows.Forms.Button();
@@ -177,19 +171,13 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.sqlcheckBox5);
+            this.tabPage2.Controls.Add(this.sqlcheckBox6);
+            this.tabPage2.Controls.Add(this.sqlcheckBox3);
+            this.tabPage2.Controls.Add(this.sqlcheckBox4);
+            this.tabPage2.Controls.Add(this.sqlcheckBox2);
+            this.tabPage2.Controls.Add(this.sqlcheckBox1);
             this.tabPage2.Controls.Add(this.sqlPointlabel1);
-            this.tabPage2.Controls.Add(this.sqlPBlabel9);
-            this.tabPage2.Controls.Add(this.sqlPBlabel10);
-            this.tabPage2.Controls.Add(this.sqlPBlabel11);
-            this.tabPage2.Controls.Add(this.sqlPBlabel12);
-            this.tabPage2.Controls.Add(this.sqlPBlabel5);
-            this.tabPage2.Controls.Add(this.sqlPBlabel6);
-            this.tabPage2.Controls.Add(this.sqlPBlabel7);
-            this.tabPage2.Controls.Add(this.sqlPBlabel8);
-            this.tabPage2.Controls.Add(this.sqlPBlabel3);
-            this.tabPage2.Controls.Add(this.sqlPBlabel4);
-            this.tabPage2.Controls.Add(this.sqlPBlabel2);
-            this.tabPage2.Controls.Add(this.sqlPBlabel1);
             this.tabPage2.Controls.Add(this.sqlCurrentlabel2);
             this.tabPage2.Controls.Add(this.sqlCurrentlabel1);
             this.tabPage2.Controls.Add(this.sqlExitbutton1);
@@ -207,6 +195,67 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // sqlcheckBox5
+            // 
+            this.sqlcheckBox5.AutoSize = true;
+            this.sqlcheckBox5.Location = new System.Drawing.Point(533, 248);
+            this.sqlcheckBox5.Name = "sqlcheckBox5";
+            this.sqlcheckBox5.Size = new System.Drawing.Size(77, 16);
+            this.sqlcheckBox5.TabIndex = 27;
+            this.sqlcheckBox5.Text = "checkBox5";
+            this.sqlcheckBox5.UseVisualStyleBackColor = true;
+            // 
+            // sqlcheckBox6
+            // 
+            this.sqlcheckBox6.AutoSize = true;
+            this.sqlcheckBox6.Location = new System.Drawing.Point(533, 268);
+            this.sqlcheckBox6.Name = "sqlcheckBox6";
+            this.sqlcheckBox6.Size = new System.Drawing.Size(77, 16);
+            this.sqlcheckBox6.TabIndex = 26;
+            this.sqlcheckBox6.Text = "checkBox6";
+            this.sqlcheckBox6.UseVisualStyleBackColor = true;
+            // 
+            // sqlcheckBox3
+            // 
+            this.sqlcheckBox3.AutoSize = true;
+            this.sqlcheckBox3.Location = new System.Drawing.Point(533, 208);
+            this.sqlcheckBox3.Name = "sqlcheckBox3";
+            this.sqlcheckBox3.Size = new System.Drawing.Size(77, 16);
+            this.sqlcheckBox3.TabIndex = 25;
+            this.sqlcheckBox3.Text = "checkBox3";
+            this.sqlcheckBox3.UseVisualStyleBackColor = true;
+            // 
+            // sqlcheckBox4
+            // 
+            this.sqlcheckBox4.AutoSize = true;
+            this.sqlcheckBox4.Location = new System.Drawing.Point(533, 227);
+            this.sqlcheckBox4.Name = "sqlcheckBox4";
+            this.sqlcheckBox4.Size = new System.Drawing.Size(77, 16);
+            this.sqlcheckBox4.TabIndex = 24;
+            this.sqlcheckBox4.Text = "checkBox4";
+            this.sqlcheckBox4.UseVisualStyleBackColor = true;
+            // 
+            // sqlcheckBox2
+            // 
+            this.sqlcheckBox2.AutoSize = true;
+            this.sqlcheckBox2.Location = new System.Drawing.Point(533, 185);
+            this.sqlcheckBox2.Name = "sqlcheckBox2";
+            this.sqlcheckBox2.Size = new System.Drawing.Size(77, 16);
+            this.sqlcheckBox2.TabIndex = 23;
+            this.sqlcheckBox2.Text = "checkBox2";
+            this.sqlcheckBox2.UseVisualStyleBackColor = true;
+            // 
+            // sqlcheckBox1
+            // 
+            this.sqlcheckBox1.AutoSize = true;
+            this.sqlcheckBox1.Location = new System.Drawing.Point(533, 162);
+            this.sqlcheckBox1.Name = "sqlcheckBox1";
+            this.sqlcheckBox1.Size = new System.Drawing.Size(77, 16);
+            this.sqlcheckBox1.TabIndex = 22;
+            this.sqlcheckBox1.Text = "checkBox1";
+            this.sqlcheckBox1.UseVisualStyleBackColor = true;
+            this.sqlcheckBox1.CheckedChanged += new System.EventHandler(this.sqlcheckBox1_CheckedChanged);
+            // 
             // sqlPointlabel1
             // 
             this.sqlPointlabel1.AutoSize = true;
@@ -216,118 +265,10 @@
             this.sqlPointlabel1.TabIndex = 21;
             this.sqlPointlabel1.Text = "sqlPointlabel1";
             // 
-            // sqlPBlabel9
-            // 
-            this.sqlPBlabel9.AutoSize = true;
-            this.sqlPBlabel9.Location = new System.Drawing.Point(546, 216);
-            this.sqlPBlabel9.Name = "sqlPBlabel9";
-            this.sqlPBlabel9.Size = new System.Drawing.Size(60, 12);
-            this.sqlPBlabel9.TabIndex = 20;
-            this.sqlPBlabel9.Text = "sqlPBlabel9";
-            // 
-            // sqlPBlabel10
-            // 
-            this.sqlPBlabel10.AutoSize = true;
-            this.sqlPBlabel10.Location = new System.Drawing.Point(612, 216);
-            this.sqlPBlabel10.Name = "sqlPBlabel10";
-            this.sqlPBlabel10.Size = new System.Drawing.Size(66, 12);
-            this.sqlPBlabel10.TabIndex = 19;
-            this.sqlPBlabel10.Text = "sqlPBlabel10";
-            // 
-            // sqlPBlabel11
-            // 
-            this.sqlPBlabel11.AutoSize = true;
-            this.sqlPBlabel11.Location = new System.Drawing.Point(545, 239);
-            this.sqlPBlabel11.Name = "sqlPBlabel11";
-            this.sqlPBlabel11.Size = new System.Drawing.Size(66, 12);
-            this.sqlPBlabel11.TabIndex = 18;
-            this.sqlPBlabel11.Text = "sqlPBlabel11";
-            // 
-            // sqlPBlabel12
-            // 
-            this.sqlPBlabel12.AutoSize = true;
-            this.sqlPBlabel12.Location = new System.Drawing.Point(612, 239);
-            this.sqlPBlabel12.Name = "sqlPBlabel12";
-            this.sqlPBlabel12.Size = new System.Drawing.Size(66, 12);
-            this.sqlPBlabel12.TabIndex = 17;
-            this.sqlPBlabel12.Text = "sqlPBlabel12";
-            // 
-            // sqlPBlabel5
-            // 
-            this.sqlPBlabel5.AutoSize = true;
-            this.sqlPBlabel5.Location = new System.Drawing.Point(546, 171);
-            this.sqlPBlabel5.Name = "sqlPBlabel5";
-            this.sqlPBlabel5.Size = new System.Drawing.Size(60, 12);
-            this.sqlPBlabel5.TabIndex = 16;
-            this.sqlPBlabel5.Text = "sqlPBlabel5";
-            // 
-            // sqlPBlabel6
-            // 
-            this.sqlPBlabel6.AutoSize = true;
-            this.sqlPBlabel6.Location = new System.Drawing.Point(612, 171);
-            this.sqlPBlabel6.Name = "sqlPBlabel6";
-            this.sqlPBlabel6.Size = new System.Drawing.Size(60, 12);
-            this.sqlPBlabel6.TabIndex = 15;
-            this.sqlPBlabel6.Text = "sqlPBlabel6";
-            // 
-            // sqlPBlabel7
-            // 
-            this.sqlPBlabel7.AutoSize = true;
-            this.sqlPBlabel7.Location = new System.Drawing.Point(546, 194);
-            this.sqlPBlabel7.Name = "sqlPBlabel7";
-            this.sqlPBlabel7.Size = new System.Drawing.Size(60, 12);
-            this.sqlPBlabel7.TabIndex = 14;
-            this.sqlPBlabel7.Text = "sqlPBlabel7";
-            // 
-            // sqlPBlabel8
-            // 
-            this.sqlPBlabel8.AutoSize = true;
-            this.sqlPBlabel8.Location = new System.Drawing.Point(612, 194);
-            this.sqlPBlabel8.Name = "sqlPBlabel8";
-            this.sqlPBlabel8.Size = new System.Drawing.Size(60, 12);
-            this.sqlPBlabel8.TabIndex = 13;
-            this.sqlPBlabel8.Text = "sqlPBlabel8";
-            // 
-            // sqlPBlabel3
-            // 
-            this.sqlPBlabel3.AutoSize = true;
-            this.sqlPBlabel3.Location = new System.Drawing.Point(546, 146);
-            this.sqlPBlabel3.Name = "sqlPBlabel3";
-            this.sqlPBlabel3.Size = new System.Drawing.Size(60, 12);
-            this.sqlPBlabel3.TabIndex = 12;
-            this.sqlPBlabel3.Text = "sqlPBlabel3";
-            // 
-            // sqlPBlabel4
-            // 
-            this.sqlPBlabel4.AutoSize = true;
-            this.sqlPBlabel4.Location = new System.Drawing.Point(612, 146);
-            this.sqlPBlabel4.Name = "sqlPBlabel4";
-            this.sqlPBlabel4.Size = new System.Drawing.Size(60, 12);
-            this.sqlPBlabel4.TabIndex = 11;
-            this.sqlPBlabel4.Text = "sqlPBlabel4";
-            // 
-            // sqlPBlabel2
-            // 
-            this.sqlPBlabel2.AutoSize = true;
-            this.sqlPBlabel2.Location = new System.Drawing.Point(612, 123);
-            this.sqlPBlabel2.Name = "sqlPBlabel2";
-            this.sqlPBlabel2.Size = new System.Drawing.Size(60, 12);
-            this.sqlPBlabel2.TabIndex = 10;
-            this.sqlPBlabel2.Text = "sqlPBlabel2";
-            // 
-            // sqlPBlabel1
-            // 
-            this.sqlPBlabel1.AutoSize = true;
-            this.sqlPBlabel1.Location = new System.Drawing.Point(545, 123);
-            this.sqlPBlabel1.Name = "sqlPBlabel1";
-            this.sqlPBlabel1.Size = new System.Drawing.Size(60, 12);
-            this.sqlPBlabel1.TabIndex = 9;
-            this.sqlPBlabel1.Text = "sqlPBlabel1";
-            // 
             // sqlCurrentlabel2
             // 
             this.sqlCurrentlabel2.AutoSize = true;
-            this.sqlCurrentlabel2.Location = new System.Drawing.Point(538, 65);
+            this.sqlCurrentlabel2.Location = new System.Drawing.Point(533, 133);
             this.sqlCurrentlabel2.Name = "sqlCurrentlabel2";
             this.sqlCurrentlabel2.Size = new System.Drawing.Size(41, 12);
             this.sqlCurrentlabel2.TabIndex = 8;
@@ -336,7 +277,7 @@
             // sqlCurrentlabel1
             // 
             this.sqlCurrentlabel1.AutoSize = true;
-            this.sqlCurrentlabel1.Location = new System.Drawing.Point(538, 43);
+            this.sqlCurrentlabel1.Location = new System.Drawing.Point(531, 107);
             this.sqlCurrentlabel1.Name = "sqlCurrentlabel1";
             this.sqlCurrentlabel1.Size = new System.Drawing.Size(41, 12);
             this.sqlCurrentlabel1.TabIndex = 7;
@@ -405,6 +346,7 @@
             this.sqlpictureBox1.Size = new System.Drawing.Size(521, 387);
             this.sqlpictureBox1.TabIndex = 0;
             this.sqlpictureBox1.TabStop = false;
+            this.sqlpictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.sqlpictureBox1_MouseClick);
             this.sqlpictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.sqlpictureBox1_MouseMove);
             // 
             // Form1
@@ -437,31 +379,25 @@
 		private System.Windows.Forms.Button SelectSource;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.StatusStrip statusStrip1;
-		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.Label FileNameLabel;
 		private System.Windows.Forms.Label PointLabel;
-		private System.Windows.Forms.Button SqlPrevImg;
-		private System.Windows.Forms.PictureBox sqlpictureBox1;
-		private System.Windows.Forms.Button SqlNextImg;
-		private System.Windows.Forms.StatusStrip statusStrip2;
-        private System.Windows.Forms.Label SqlDBinfo;
-        private System.Windows.Forms.Label sqlImageLabel1;
-        private System.Windows.Forms.Button sqlExitbutton1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.CheckBox sqlcheckBox5;
+        private System.Windows.Forms.CheckBox sqlcheckBox6;
+        private System.Windows.Forms.CheckBox sqlcheckBox3;
+        private System.Windows.Forms.CheckBox sqlcheckBox4;
+        private System.Windows.Forms.CheckBox sqlcheckBox2;
+        private System.Windows.Forms.CheckBox sqlcheckBox1;
+        private System.Windows.Forms.Label sqlPointlabel1;
         private System.Windows.Forms.Label sqlCurrentlabel2;
         private System.Windows.Forms.Label sqlCurrentlabel1;
-        private System.Windows.Forms.Label sqlPBlabel9;
-        private System.Windows.Forms.Label sqlPBlabel10;
-        private System.Windows.Forms.Label sqlPBlabel11;
-        private System.Windows.Forms.Label sqlPBlabel12;
-        private System.Windows.Forms.Label sqlPBlabel5;
-        private System.Windows.Forms.Label sqlPBlabel6;
-        private System.Windows.Forms.Label sqlPBlabel7;
-        private System.Windows.Forms.Label sqlPBlabel8;
-        private System.Windows.Forms.Label sqlPBlabel3;
-        private System.Windows.Forms.Label sqlPBlabel4;
-        private System.Windows.Forms.Label sqlPBlabel2;
-        private System.Windows.Forms.Label sqlPBlabel1;
-        private System.Windows.Forms.Label sqlPointlabel1;
+        private System.Windows.Forms.Button sqlExitbutton1;
+        private System.Windows.Forms.Label sqlImageLabel1;
+        private System.Windows.Forms.Label SqlDBinfo;
+        private System.Windows.Forms.StatusStrip statusStrip2;
+        private System.Windows.Forms.Button SqlNextImg;
+        private System.Windows.Forms.Button SqlPrevImg;
+        private System.Windows.Forms.PictureBox sqlpictureBox1;
     }
 }
 
