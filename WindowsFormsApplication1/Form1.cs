@@ -60,8 +60,24 @@ namespace WindowsFormsApplication1
 
             sqlCurrentlabel1.Text = "Current image : " + sqlimagecount;
 
-            string sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
+            string sqlQueryString = "select * from " + tbWrite + "  WHERE SourceSN='" + sqlimagecount + "'";
             MySqlCommand cmd = new MySqlCommand(sqlQueryString, conn);
+            MySqlDataReader R_reader = cmd.ExecuteReader(); //execure the reader
+            R_reader.Read();
+            if (R_reader.HasRows)
+            {
+                sqlcheckBox1.Checked = R_reader.GetBoolean(6);
+                sqlcheckBox2.Checked = R_reader.GetBoolean(7);
+                sqlcheckBox3.Checked = R_reader.GetBoolean(8);
+                sqlcheckBox4.Checked = R_reader.GetBoolean(9);
+                sqlcheckBox5.Checked = R_reader.GetBoolean(10);
+                sqlcheckBox6.Checked = R_reader.GetBoolean(11);
+            }
+
+            R_reader.Close();
+
+             sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
+             cmd = new MySqlCommand(sqlQueryString, conn);
             MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
             reader.Read();
             sqlcheckBox1.Text = "PB_Cat      : " + reader.GetString(5);
@@ -329,8 +345,65 @@ namespace WindowsFormsApplication1
                     case Keys.Q:
                         sqlExitbutton1.PerformClick();
                         break;
-                    case Keys.NumPad1:
-                        Console.WriteLine("number 1");
+                    case Keys.D1:
+                        if (sqlcheckBox1.Checked)
+                        {
+                            sqlcheckBox1.Checked = false;
+                        }
+                        else
+                        {
+                            sqlcheckBox1.Checked = true;
+                        }
+                        break;
+                    case Keys.D2:
+                        if (sqlcheckBox2.Checked)
+                        {
+                            sqlcheckBox2.Checked = false;
+                        }
+                        else
+                        {
+                            sqlcheckBox2.Checked = true;
+                        }
+                        break;
+                    case Keys.D3:
+                        if (sqlcheckBox3.Checked)
+                        {
+                            sqlcheckBox3.Checked = false;
+                        }
+                        else
+                        {
+                            sqlcheckBox3.Checked = true;
+                        }
+                        break;
+                    case Keys.D4:
+                        if (sqlcheckBox4.Checked)
+                        {
+                            sqlcheckBox4.Checked = false;
+                        }
+                        else
+                        {
+                            sqlcheckBox4.Checked = true;
+                        }
+                        break;                  
+                    case Keys.D5:
+                        if (sqlcheckBox5.Checked)
+                        {
+                            sqlcheckBox5.Checked = false;
+                        }
+                        else
+                        {
+                            sqlcheckBox5.Checked = true;
+                        }
+                        break;
+                    case Keys.D6:
+                        if (sqlcheckBox6.Checked)
+                        {
+                            sqlcheckBox6.Checked = false;
+                        }
+                        else
+                        {
+                            sqlcheckBox6.Checked = true;
+                        }
                         break;
 
                 }
@@ -342,7 +415,13 @@ namespace WindowsFormsApplication1
             sqlimagecount--;
             sqlImageLabel1.Visible = false;
             SqlNextImg.Enabled = true;
-            
+            sqlcheckBox1.Checked = false;
+            sqlcheckBox2.Checked = false;
+            sqlcheckBox3.Checked = false;
+            sqlcheckBox4.Checked = false;
+            sqlcheckBox5.Checked = false;
+            sqlcheckBox6.Checked = false;
+
             string connStr = "server=" + dbHost + ";uid=" + dbUser + ";pwd=" + dbPass + ";database=" + dbName+ ";Allow User Variables=True";
             SqlDBinfo.Text = connStr;
             MySqlConnection conn = new MySqlConnection(connStr);
@@ -358,22 +437,38 @@ namespace WindowsFormsApplication1
             {
                 sqlimagecount =sqltbsize;
             }
-            //Console.WriteLine("{0}  {1}", sqlimagecount, sqltbsize);
+            Console.WriteLine("{0}  {1}", sqlimagecount, sqltbsize);
             reader.Close();
 
             if (sqlimagecount >= 1 || sqlimagecount == sqltbsize )
             {
+                sqlQueryString = "select * from " + tbWrite + "  WHERE SourceSN='" + sqlimagecount + "'";
+                cmd = new MySqlCommand(sqlQueryString, conn);
+                MySqlDataReader R_reader = cmd.ExecuteReader(); //execure the reader
+                R_reader.Read();
+                if (R_reader.HasRows)
+                {
+                    sqlcheckBox1.Checked = R_reader.GetBoolean(6);
+                    sqlcheckBox2.Checked = R_reader.GetBoolean(7);
+                    sqlcheckBox3.Checked = R_reader.GetBoolean(8);
+                    sqlcheckBox4.Checked = R_reader.GetBoolean(9);
+                    sqlcheckBox5.Checked = R_reader.GetBoolean(10);
+                    sqlcheckBox6.Checked = R_reader.GetBoolean(11);
+                }
+
+                R_reader.Close();
+
                 sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
                 cmd = new MySqlCommand(sqlQueryString, conn);
                 reader = cmd.ExecuteReader(); //execure the reader
                 reader.Read();
+
                 sqlcheckBox1.Text = "PB_Cat      : " + reader.GetString(5);
                 sqlcheckBox2.Text = "PB_Dog     :  " + reader.GetString(6);
                 sqlcheckBox3.Text = "PB_Flower : " + reader.GetString(7);
                 sqlcheckBox4.Text = "PB_Indoor : " + reader.GetString(8);
                 sqlcheckBox5.Text = "PB_Meal    : " + reader.GetString(9);
                 sqlcheckBox6.Text = "PB_Person : " + reader.GetString(10);
-
                 string ImageURI = "http://10.116.136.13/~CL/IMAGES/" + reader.GetString(1) + "/" + reader.GetString(2);
                 System.Net.WebRequest request = System.Net.WebRequest.Create(ImageURI);
                 System.Net.WebResponse response = request.GetResponse();
@@ -406,38 +501,54 @@ namespace WindowsFormsApplication1
             MySqlConnection conn = new MySqlConnection(connStr);
             MySqlCommand command = conn.CreateCommand();
             conn.Open();
+            //Console.WriteLine(sqlimagecount);
+            //Console.WriteLine(sqlcheckBox1.Checked);
+            //Console.WriteLine(sqlcheckBox2.Checked);
+            //Console.WriteLine(sqlcheckBox3.Checked);
+            //Console.WriteLine(sqlcheckBox4.Checked);
+            //Console.WriteLine(sqlcheckBox5.Checked);
+            //Console.WriteLine(sqlcheckBox6.Checked);
 
             try
             {
                 var selectString = "SELECT * FROM " + tbWrite + " WHERE `SourceSN` =  '"+ sqlimagecount+"' ";
                 var myCommand = new MySqlCommand(selectString, conn);
                 MySqlDataReader exist_reader = myCommand.ExecuteReader();
-                Console.WriteLine(exist_reader.HasRows);
 
                 if (!exist_reader.HasRows)
                 {
                     exist_reader.Close();
                     try
                     {
+                        //This is  MySqlConnection here i have created the object and pass my connection string.
+                        MySqlConnection MyConn3 = new MySqlConnection(connStr);
+                        string sqlQueryStringinsert = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
+                        MySqlCommand cmdinsert = new MySqlCommand(sqlQueryStringinsert, MyConn3);
+                        MyConn3.Open();
+                        MySqlDataReader readerinsert = cmdinsert.ExecuteReader(); //execure the reader
+
+                        readerinsert.Read();
+
                         //This is my insert query in which i am taking input from the user through windows forms
-                        string insert_sql = "INSERT INTO R_Owen(`SourceSN`, `Folder`, `FileName`, `Threshold`, `TimeStamp`, "+
+                        string insert_sql = "INSERT INTO R_Owen(`SourceSN`, `Folder`, `FileName`, `Threshold`,  "+
                             "`Cat_Result`, `Dog_Result`, `Flower_Result`, `Indoor_Result`, `Meal_Result`, `Person_Result`) VALUES(" +
-                            "@SN ,@Folder,@FileName,@Threshold,@TimeStamp,@Cat,@Dog,@Flower,@Indoor,@Meal,@Person   )";
+                            "@SN ,@Folder,@FileName,@Threshold,@Cat,@Dog,@Flower,@Indoor,@Meal,@Person   )";
                         //This is  MySqlConnection here i have created the object and pass my connection string.
                         MySqlConnection MyConn2 = new MySqlConnection(connStr);
                         //This is command class which will handle the query and connection object.
                         MySqlCommand MyCommand2 = new MySqlCommand(insert_sql, MyConn2);
-                        myCommand.Parameters.AddWithValue("@SN", sqlimagecount);
-                        myCommand.Parameters.AddWithValue("@Folder", sqlimagecount);
-                        myCommand.Parameters.AddWithValue("@FileName", sqlimagecount);
-                        myCommand.Parameters.AddWithValue("@Threshold", sqlimagecount);
-                        myCommand.Parameters.AddWithValue("@TimeStamp", sqlimagecount);
-                        myCommand.Parameters.AddWithValue("@Cat", sqlimagecount);
-                        myCommand.Parameters.AddWithValue("@Dog", sqlimagecount);
-                        myCommand.Parameters.AddWithValue("@Flower", sqlimagecount);
-                        myCommand.Parameters.AddWithValue("@Indoor", sqlimagecount);
-                        myCommand.Parameters.AddWithValue("@Meal", sqlimagecount);
-                        myCommand.Parameters.AddWithValue("@Person", sqlimagecount);
+                        MyCommand2.Parameters.AddWithValue("@SN", sqlimagecount);
+                        MyCommand2.Parameters.AddWithValue("@Folder", readerinsert.GetString(1));
+                        MyCommand2.Parameters.AddWithValue("@FileName", readerinsert.GetString(2));
+                        MyCommand2.Parameters.AddWithValue("@Threshold", sqlimagecount);
+                        readerinsert.Close();
+                        MyConn3.Close();
+                        MyCommand2.Parameters.AddWithValue("@Cat", sqlcheckBox1.Checked);
+                        MyCommand2.Parameters.AddWithValue("@Dog", sqlcheckBox2.Checked);
+                        MyCommand2.Parameters.AddWithValue("@Flower", sqlcheckBox3.Checked);
+                        MyCommand2.Parameters.AddWithValue("@Indoor", sqlcheckBox4.Checked);
+                        MyCommand2.Parameters.AddWithValue("@Meal", sqlcheckBox5.Checked);
+                        MyCommand2.Parameters.AddWithValue("@Person", sqlcheckBox6.Checked);
 
 
                         MyConn2.Open();
@@ -458,13 +569,20 @@ namespace WindowsFormsApplication1
                     {
 
                         //This is my update query in which i am taking input from the user through windows forms and update the record.
-                        string sqlupdate = "UPDATE `R_Owen` SET `Folder`='[value-3]',`FileName`='[value-4]', " +
-                                        "`Threshold`='0.5',`TimeStamp`=' ',`Cat_Result`=1,`Dog_Result`=1,`Flower_Result`=1,`Indoor_Result`=1," +
-                                        "`Meal_Result`=1,`Person_Result`=1 WHERE `SourceSN`='" + sqlimagecount + "'";
-                        //This is  MySqlConnection here i have created the object and pass my connection string.
-                        Console.WriteLine(sqlupdate);
+
+                        string sqlupdate = "UPDATE `DeepLearning`.`R_Owen` SET " +
+                            " `Cat_Result` = @Cat, `Dog_Result` = @Dog, `Flower_Result` = @Flower, "+
+                            " `Indoor_Result` = @Indoor, `Meal_Result` = @Meal, `Person_Result` = @Person "+
+                            " WHERE `R_Owen`.`SourceSN` = @SN;";
                         MySqlConnection MyConn2 = new MySqlConnection(connStr);
                         MySqlCommand MyCommand2 = new MySqlCommand(sqlupdate, MyConn2);
+                        MyCommand2.Parameters.AddWithValue("@SN", sqlimagecount);
+                        MyCommand2.Parameters.AddWithValue("@Cat", sqlcheckBox1.Checked);
+                        MyCommand2.Parameters.AddWithValue("@Dog", sqlcheckBox2.Checked);
+                        MyCommand2.Parameters.AddWithValue("@Flower", sqlcheckBox3.Checked);
+                        MyCommand2.Parameters.AddWithValue("@Indoor", sqlcheckBox4.Checked);
+                        MyCommand2.Parameters.AddWithValue("@Meal", sqlcheckBox5.Checked);
+                        MyCommand2.Parameters.AddWithValue("@Person", sqlcheckBox6.Checked);
 
                         MyConn2.Open();
                         MyCommand2.ExecuteNonQuery();   // Here our query will be executed and data saved into the database.
@@ -483,7 +601,12 @@ namespace WindowsFormsApplication1
             {
                 Console.WriteLine(ex.Message);
             }
-
+            sqlcheckBox1.Checked = false;
+            sqlcheckBox2.Checked = false;
+            sqlcheckBox3.Checked = false;
+            sqlcheckBox4.Checked = false;
+            sqlcheckBox5.Checked = false;
+            sqlcheckBox6.Checked = false;
             sqlpictureBox1.Visible = true;
             SqlPrevImg.Enabled = true;
             sqlimagecount++;
@@ -519,6 +642,7 @@ namespace WindowsFormsApplication1
                     sqlcheckBox5.Checked = R_reader.GetBoolean(10);
                     sqlcheckBox6.Checked = R_reader.GetBoolean(11);
                 }
+
                 R_reader.Close();
 
                 sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
@@ -558,71 +682,6 @@ namespace WindowsFormsApplication1
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //sqlImageLabel1.Visible = false;
-            //sqlPBlabel1.Text = "PB_Cat";
-            //sqlPBlabel3.Text = "PB_Dog";
-            //sqlPBlabel5.Text = "PB_Flower";
-            //sqlPBlabel7.Text = "PB_Indoor";
-            //sqlPBlabel9.Text = "PB_Meal";
-            //sqlPBlabel11.Text = "PB_Person";
-            //if (sqlimagecount == 1)
-            //{
-            //    SqlPrevImg.Enabled = false;
-            //}
-
-            //if (tabControl1.SelectedTab == tabControl1.TabPages["tabPage2"])//your specific tabname
-            //{
-            //    string dbHost = "10.116.136.13";//資料庫位址
-            //    string dbUser = "readDL";//資料庫使用者帳號
-            //    string dbPass = "readDL";//資料庫使用者密碼
-            //    string dbName = "DeepLearning";//資料庫名稱
-            //    string tbName = "Original";//資料表名稱
-
-            //    string connStr = "server=" + dbHost + ";uid=" + dbUser + ";pwd=" + dbPass + ";database=" + dbName;
-            //    SqlDBinfo.Text = connStr;
-            //    MySqlConnection conn = new MySqlConnection(connStr);
-            //    MySqlCommand command = conn.CreateCommand();
-            //    conn.Open();
-
-            //    sqlCurrentlabel1.Text = "Current image : " + sqlimagecount;
-
-            //    string sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
-            //    MySqlCommand cmd = new MySqlCommand(sqlQueryString, conn);
-            //    MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
-            //    reader.Read();
-            //    sqlPBlabel2.Text = reader.GetString(5);
-            //    sqlPBlabel4.Text = reader.GetString(6);
-            //    sqlPBlabel6.Text = reader.GetString(7);
-            //    sqlPBlabel8.Text = reader.GetString(8);
-            //    sqlPBlabel10.Text = reader.GetString(9);
-            //    sqlPBlabel12.Text = reader.GetString(10);
-
-            //    //Console.WriteLine(reader.GetString(1));
-            //    //Console.WriteLine(reader.GetString(2));
-            //    string ImageURI= "http://10.116.136.13/~CL/IMAGES/" + reader.GetString(1) + "/" + reader.GetString(2);
-            //    System.Net.WebRequest request = System.Net.WebRequest.Create(ImageURI);
-            //    System.Net.WebResponse response = request.GetResponse();
-            //    System.IO.Stream responseStream = response.GetResponseStream();
-            //    Bitmap bitmap2 = new Bitmap(responseStream);
-
-            //    sqlpictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            //    sqlpictureBox1.Image = bitmap2;
-            //    reader.Close();
-
-            //    sqlQueryString = "select count(SerialNumber) from " + tbName ;
-            //    cmd = new MySqlCommand(sqlQueryString, conn);
-            //    reader = cmd.ExecuteReader(); //execure the reader
-            //    reader.Read();
-            //    int sqltbsize = reader.GetInt16(0);
-            //    Console.WriteLine(sqltbsize);
-            //    reader.Close();
-            //    sqlCurrentlabel1.Text = "Current image : " + sqlimagecount;
-            //    sqlCurrentlabel2.Text = "Remain image : " + (sqltbsize - sqlimagecount);
-
-            //    conn.Close();
-
-            //}
-
         }
 
         private void sqlpictureBox1_MouseMove(object sender, MouseEventArgs e)
