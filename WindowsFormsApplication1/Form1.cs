@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using excel = Microsoft.Office.Interop.Excel;
 using MySql.Data.MySqlClient;
 
+
 namespace WindowsFormsApplication1
 {
 
@@ -17,12 +18,12 @@ namespace WindowsFormsApplication1
         protected excel.Worksheet aSheet1;
         protected excel.Range aRange;
         private int offset = 0;
-        private int sqlimagecount = 5830;
+        private int sqlimagecount = 1;
         string dbHost = "10.116.136.13";//資料庫位址
         string dbUser = "readDL";//資料庫使用者帳號
         string dbPass = "readDL";//資料庫使用者密碼
         string dbName = "DeepLearning";//資料庫名稱
-        string tbName = "Original";//資料表名稱
+        string tbName = "Original_Small";//資料表名稱
         string tbWrite = "R_Owen";//資料表名稱
 
         public Form1()
@@ -89,14 +90,20 @@ namespace WindowsFormsApplication1
 
             //Console.WriteLine(reader.GetString(1));
             //Console.WriteLine(reader.GetString(2));
-            string ImageURI = "http://10.116.136.13/~CL/IMAGES/" + reader.GetString(1) + "/" + reader.GetString(2);
-            System.Net.WebRequest request = System.Net.WebRequest.Create(ImageURI);
-            System.Net.WebResponse response = request.GetResponse();
-            System.IO.Stream responseStream = response.GetResponseStream();
-            Bitmap bitmap2 = new Bitmap(responseStream);
+            try {
+                string ImageURI = "http://10.116.136.13/~CL/IMAGES/IMG/" + reader.GetString(1) + "/" + reader.GetString(2);
+                System.Net.WebRequest request = System.Net.WebRequest.Create(ImageURI);
+                System.Net.WebResponse response = request.GetResponse();
+                System.IO.Stream responseStream = response.GetResponseStream();
+                Bitmap bitmap2 = new Bitmap(responseStream);
 
-            sqlpictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            sqlpictureBox1.Image = bitmap2;
+                sqlpictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+                sqlpictureBox1.Image = bitmap2;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             reader.Close();
 
             sqlQueryString = "select count(SerialNumber) from " + tbName;
@@ -421,6 +428,8 @@ namespace WindowsFormsApplication1
             sqlcheckBox4.Checked = false;
             sqlcheckBox5.Checked = false;
             sqlcheckBox6.Checked = false;
+            sqlLastlabel1.Text = "";
+
 
             string connStr = "server=" + dbHost + ";uid=" + dbUser + ";pwd=" + dbPass + ";database=" + dbName+ ";Allow User Variables=True";
             SqlDBinfo.Text = connStr;
@@ -437,60 +446,60 @@ namespace WindowsFormsApplication1
             {
                 sqlimagecount =sqltbsize;
             }
-            Console.WriteLine("{0}  {1}", sqlimagecount, sqltbsize);
+            //Console.WriteLine("{0}  {1}", sqlimagecount, sqltbsize);
             reader.Close();
+            SqlDataLoadFunction();
+            //if (sqlimagecount >= 1 || sqlimagecount == sqltbsize )
+            //{
+            //    sqlQueryString = "select * from " + tbWrite + "  WHERE SourceSN='" + sqlimagecount + "'";
+            //    cmd = new MySqlCommand(sqlQueryString, conn);
+            //    MySqlDataReader R_reader = cmd.ExecuteReader(); //execure the reader
+            //    R_reader.Read();
+            //    if (R_reader.HasRows)
+            //    {
+            //        sqlcheckBox1.Checked = R_reader.GetBoolean(6);
+            //        sqlcheckBox2.Checked = R_reader.GetBoolean(7);
+            //        sqlcheckBox3.Checked = R_reader.GetBoolean(8);
+            //        sqlcheckBox4.Checked = R_reader.GetBoolean(9);
+            //        sqlcheckBox5.Checked = R_reader.GetBoolean(10);
+            //        sqlcheckBox6.Checked = R_reader.GetBoolean(11);
+            //    }
 
-            if (sqlimagecount >= 1 || sqlimagecount == sqltbsize )
-            {
-                sqlQueryString = "select * from " + tbWrite + "  WHERE SourceSN='" + sqlimagecount + "'";
-                cmd = new MySqlCommand(sqlQueryString, conn);
-                MySqlDataReader R_reader = cmd.ExecuteReader(); //execure the reader
-                R_reader.Read();
-                if (R_reader.HasRows)
-                {
-                    sqlcheckBox1.Checked = R_reader.GetBoolean(6);
-                    sqlcheckBox2.Checked = R_reader.GetBoolean(7);
-                    sqlcheckBox3.Checked = R_reader.GetBoolean(8);
-                    sqlcheckBox4.Checked = R_reader.GetBoolean(9);
-                    sqlcheckBox5.Checked = R_reader.GetBoolean(10);
-                    sqlcheckBox6.Checked = R_reader.GetBoolean(11);
-                }
+            //    R_reader.Close();
 
-                R_reader.Close();
+            //    sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
+            //    cmd = new MySqlCommand(sqlQueryString, conn);
+            //    reader = cmd.ExecuteReader(); //execure the reader
+            //    reader.Read();
 
-                sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
-                cmd = new MySqlCommand(sqlQueryString, conn);
-                reader = cmd.ExecuteReader(); //execure the reader
-                reader.Read();
+            //    sqlcheckBox1.Text = "PB_Cat      : " + reader.GetString(5);
+            //    sqlcheckBox2.Text = "PB_Dog     :  " + reader.GetString(6);
+            //    sqlcheckBox3.Text = "PB_Flower : " + reader.GetString(7);
+            //    sqlcheckBox4.Text = "PB_Indoor : " + reader.GetString(8);
+            //    sqlcheckBox5.Text = "PB_Meal    : " + reader.GetString(9);
+            //    sqlcheckBox6.Text = "PB_Person : " + reader.GetString(10);
+            //    string ImageURI = "http://10.116.136.13/~CL/IMAGES/" + reader.GetString(1) + "/" + reader.GetString(2);
+            //    System.Net.WebRequest request = System.Net.WebRequest.Create(ImageURI);
+            //    System.Net.WebResponse response = request.GetResponse();
+            //    System.IO.Stream responseStream = response.GetResponseStream();
+            //    Bitmap bitmap2 = new Bitmap(responseStream);
 
-                sqlcheckBox1.Text = "PB_Cat      : " + reader.GetString(5);
-                sqlcheckBox2.Text = "PB_Dog     :  " + reader.GetString(6);
-                sqlcheckBox3.Text = "PB_Flower : " + reader.GetString(7);
-                sqlcheckBox4.Text = "PB_Indoor : " + reader.GetString(8);
-                sqlcheckBox5.Text = "PB_Meal    : " + reader.GetString(9);
-                sqlcheckBox6.Text = "PB_Person : " + reader.GetString(10);
-                string ImageURI = "http://10.116.136.13/~CL/IMAGES/" + reader.GetString(1) + "/" + reader.GetString(2);
-                System.Net.WebRequest request = System.Net.WebRequest.Create(ImageURI);
-                System.Net.WebResponse response = request.GetResponse();
-                System.IO.Stream responseStream = response.GetResponseStream();
-                Bitmap bitmap2 = new Bitmap(responseStream);
+            //    sqlpictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            //    sqlpictureBox1.Image = bitmap2;
+            //    reader.Close();
+            //    conn.Close();
+            //}
+            //else
+            //{
+            //    sqlpictureBox1.Visible = false;
+            //    sqlImageLabel1.Text = "Already at first image!!!";
+            //    sqlImageLabel1.Show();
+            //    SqlPrevImg.Enabled = false;
+            //    sqlimagecount--;
 
-                sqlpictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-                sqlpictureBox1.Image = bitmap2;
-                reader.Close();
-                conn.Close();
-            }
-            else
-            {
-                sqlpictureBox1.Visible = false;
-                sqlImageLabel1.Text = "Already at first image!!!";
-                sqlImageLabel1.Show();
-                SqlPrevImg.Enabled = false;
-                sqlimagecount--;
-
-            }
-            sqlCurrentlabel1.Text = "Current image : " + sqlimagecount;
-            sqlCurrentlabel2.Text = "Remain image : " + (sqltbsize - sqlimagecount);
+            //}
+            //sqlCurrentlabel1.Text = "Current image : " + sqlimagecount;
+            //sqlCurrentlabel2.Text = "Remain image : " + (sqltbsize - sqlimagecount);
 
         }
 
@@ -501,13 +510,25 @@ namespace WindowsFormsApplication1
             MySqlConnection conn = new MySqlConnection(connStr);
             MySqlCommand command = conn.CreateCommand();
             conn.Open();
-            //Console.WriteLine(sqlimagecount);
-            //Console.WriteLine(sqlcheckBox1.Checked);
-            //Console.WriteLine(sqlcheckBox2.Checked);
-            //Console.WriteLine(sqlcheckBox3.Checked);
-            //Console.WriteLine(sqlcheckBox4.Checked);
-            //Console.WriteLine(sqlcheckBox5.Checked);
-            //Console.WriteLine(sqlcheckBox6.Checked);
+
+            //MySqlConnection MyConn4 = new MySqlConnection(connStr);
+            //string sqlQueryString1 = "select * from " + tbWrite + "  WHERE SerialNumber='" + sqlimagecount + "'";
+            //MySqlCommand cmd = new MySqlCommand(sqlQueryString1, MyConn4);
+            //MyConn4.Open();
+            //MySqlDataReader readerquery = cmd.ExecuteReader(); //execure the reader
+
+            //readerquery.Read();
+            //if (!readerquery.HasRows)
+            //{
+                sqlLastlabel1.Text = "Cat :" + sqlcheckBox1.Checked + "             " +
+    "Dog : " + sqlcheckBox2.Checked + "\n" +
+    "Flower : " + sqlcheckBox3.Checked + "      " +
+    "Indoor : " + sqlcheckBox4.Checked + "\n" +
+    "Meal : " + sqlcheckBox5.Checked + "          " +
+    "Person : " + sqlcheckBox6.Checked + "\n";
+            //}
+            //readerquery.Close();
+            //MyConn4.Close();
 
             try
             {
@@ -553,7 +574,7 @@ namespace WindowsFormsApplication1
 
                         MyConn2.Open();
                         MyCommand2.ExecuteNonQuery();   // Here our query will be executed and data saved into the database.
-                        MessageBox.Show("Save Data");
+                        //MessageBox.Show("Save Data");
                         MyConn2.Close();
                     }
                     catch (Exception ex)
@@ -586,7 +607,7 @@ namespace WindowsFormsApplication1
 
                         MyConn2.Open();
                         MyCommand2.ExecuteNonQuery();   // Here our query will be executed and data saved into the database.
-                        MessageBox.Show("Data Updated");
+                        //MessageBox.Show("Data Updated");
                         MyConn2.Close();//Connection closed here
                     }
                     catch (Exception ex)
@@ -601,6 +622,9 @@ namespace WindowsFormsApplication1
             {
                 Console.WriteLine(ex.Message);
             }
+
+
+
             sqlcheckBox1.Checked = false;
             sqlcheckBox2.Checked = false;
             sqlcheckBox3.Checked = false;
@@ -614,7 +638,7 @@ namespace WindowsFormsApplication1
 
             conn.Open();            
             string sqlQueryString = "select count(SerialNumber) from " + tbName;
-            Console.WriteLine(sqlQueryString);
+            //Console.WriteLine(sqlQueryString);
             MySqlCommand cmd = new MySqlCommand(sqlQueryString, conn);
             MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
             reader.Read();
@@ -626,58 +650,58 @@ namespace WindowsFormsApplication1
                 sqlimagecount=1;
             }
             // inser or update latest
+            SqlDataLoadFunction();
+            //if (sqlimagecount >= 1 || sqlimagecount <= sqltbsize)
+            //{
+            //    sqlQueryString = "select * from " + tbWrite + "  WHERE SourceSN='" + sqlimagecount + "'";
+            //    cmd = new MySqlCommand(sqlQueryString, conn);
+            //    MySqlDataReader R_reader = cmd.ExecuteReader(); //execure the reader
+            //    R_reader.Read();
+            //    if (R_reader.HasRows)
+            //    {
+            //        sqlcheckBox1.Checked = R_reader.GetBoolean(6);
+            //        sqlcheckBox2.Checked = R_reader.GetBoolean(7);
+            //        sqlcheckBox3.Checked = R_reader.GetBoolean(8);
+            //        sqlcheckBox4.Checked = R_reader.GetBoolean(9);
+            //        sqlcheckBox5.Checked = R_reader.GetBoolean(10);
+            //        sqlcheckBox6.Checked = R_reader.GetBoolean(11);
+            //    }
 
-            if (sqlimagecount >= 1 || sqlimagecount <= sqltbsize)
-            {
-                sqlQueryString = "select * from " + tbWrite + "  WHERE SourceSN='" + sqlimagecount + "'";
-                cmd = new MySqlCommand(sqlQueryString, conn);
-                MySqlDataReader R_reader = cmd.ExecuteReader(); //execure the reader
-                R_reader.Read();
-                if (R_reader.HasRows)
-                {
-                    sqlcheckBox1.Checked = R_reader.GetBoolean(6);
-                    sqlcheckBox2.Checked = R_reader.GetBoolean(7);
-                    sqlcheckBox3.Checked = R_reader.GetBoolean(8);
-                    sqlcheckBox4.Checked = R_reader.GetBoolean(9);
-                    sqlcheckBox5.Checked = R_reader.GetBoolean(10);
-                    sqlcheckBox6.Checked = R_reader.GetBoolean(11);
-                }
+            //    R_reader.Close();
 
-                R_reader.Close();
+            //    sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
+            //    cmd = new MySqlCommand(sqlQueryString, conn);
+            //    reader = cmd.ExecuteReader(); //execure the reader
+            //    reader.Read();
 
-                sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
-                cmd = new MySqlCommand(sqlQueryString, conn);
-                reader = cmd.ExecuteReader(); //execure the reader
-                reader.Read();
+            //    sqlcheckBox1.Text = "PB_Cat      : " + reader.GetString(5);
+            //    sqlcheckBox2.Text = "PB_Dog     :  " + reader.GetString(6);
+            //    sqlcheckBox3.Text = "PB_Flower : " + reader.GetString(7);
+            //    sqlcheckBox4.Text = "PB_Indoor : " + reader.GetString(8);
+            //    sqlcheckBox5.Text = "PB_Meal    : " + reader.GetString(9);
+            //    sqlcheckBox6.Text = "PB_Person : " + reader.GetString(10);
+            //    string ImageURI = "http://10.116.136.13/~CL/IMAGES/" + reader.GetString(1) + "/" + reader.GetString(2);
+            //    System.Net.WebRequest request = System.Net.WebRequest.Create(ImageURI);
+            //    System.Net.WebResponse response = request.GetResponse();
+            //    System.IO.Stream responseStream = response.GetResponseStream();
+            //    Bitmap bitmap2 = new Bitmap(responseStream);
 
-                sqlcheckBox1.Text = "PB_Cat      : " + reader.GetString(5);
-                sqlcheckBox2.Text = "PB_Dog     :  " + reader.GetString(6);
-                sqlcheckBox3.Text = "PB_Flower : " + reader.GetString(7);
-                sqlcheckBox4.Text = "PB_Indoor : " + reader.GetString(8);
-                sqlcheckBox5.Text = "PB_Meal    : " + reader.GetString(9);
-                sqlcheckBox6.Text = "PB_Person : " + reader.GetString(10);
-                string ImageURI = "http://10.116.136.13/~CL/IMAGES/" + reader.GetString(1) + "/" + reader.GetString(2);
-                System.Net.WebRequest request = System.Net.WebRequest.Create(ImageURI);
-                System.Net.WebResponse response = request.GetResponse();
-                System.IO.Stream responseStream = response.GetResponseStream();
-                Bitmap bitmap2 = new Bitmap(responseStream);
+            //    sqlpictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            //    sqlpictureBox1.Image = bitmap2;
+            //    reader.Close();
+            //    conn.Close();
 
-                sqlpictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-                sqlpictureBox1.Image = bitmap2;
-                reader.Close();
-                conn.Close();
-
-            }
-            else
-            {
-                sqlpictureBox1.Visible = false;
-                sqlImageLabel1.Text = "No more image!!!";
-                sqlImageLabel1.Show();
-                SqlNextImg.Enabled = false;
-                sqlimagecount=1;
-            }
-            sqlCurrentlabel1.Text = "Current image : " + sqlimagecount;
-            sqlCurrentlabel2.Text = "Remain image : " + (sqltbsize - sqlimagecount);
+            //}
+            //else
+            //{
+            //    sqlpictureBox1.Visible = false;
+            //    sqlImageLabel1.Text = "No more image!!!";
+            //    sqlImageLabel1.Show();
+            //    SqlNextImg.Enabled = false;
+            //    sqlimagecount=1;
+            //}
+            //sqlCurrentlabel1.Text = "Current image : " + sqlimagecount;
+            //sqlCurrentlabel2.Text = "Remain image : " + (sqltbsize - sqlimagecount);
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)

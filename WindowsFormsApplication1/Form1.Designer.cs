@@ -55,6 +55,7 @@
             this.SqlNextImg = new System.Windows.Forms.Button();
             this.SqlPrevImg = new System.Windows.Forms.Button();
             this.sqlpictureBox1 = new System.Windows.Forms.PictureBox();
+            this.sqlLastlabel1 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -171,6 +172,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.sqlLastlabel1);
             this.tabPage2.Controls.Add(this.sqlcheckBox5);
             this.tabPage2.Controls.Add(this.sqlcheckBox6);
             this.tabPage2.Controls.Add(this.sqlcheckBox3);
@@ -198,7 +200,7 @@
             // sqlcheckBox5
             // 
             this.sqlcheckBox5.AutoSize = true;
-            this.sqlcheckBox5.Location = new System.Drawing.Point(533, 248);
+            this.sqlcheckBox5.Location = new System.Drawing.Point(533, 269);
             this.sqlcheckBox5.Name = "sqlcheckBox5";
             this.sqlcheckBox5.Size = new System.Drawing.Size(77, 16);
             this.sqlcheckBox5.TabIndex = 27;
@@ -208,7 +210,7 @@
             // sqlcheckBox6
             // 
             this.sqlcheckBox6.AutoSize = true;
-            this.sqlcheckBox6.Location = new System.Drawing.Point(533, 268);
+            this.sqlcheckBox6.Location = new System.Drawing.Point(533, 289);
             this.sqlcheckBox6.Name = "sqlcheckBox6";
             this.sqlcheckBox6.Size = new System.Drawing.Size(77, 16);
             this.sqlcheckBox6.TabIndex = 26;
@@ -218,7 +220,7 @@
             // sqlcheckBox3
             // 
             this.sqlcheckBox3.AutoSize = true;
-            this.sqlcheckBox3.Location = new System.Drawing.Point(533, 208);
+            this.sqlcheckBox3.Location = new System.Drawing.Point(533, 229);
             this.sqlcheckBox3.Name = "sqlcheckBox3";
             this.sqlcheckBox3.Size = new System.Drawing.Size(77, 16);
             this.sqlcheckBox3.TabIndex = 25;
@@ -228,7 +230,7 @@
             // sqlcheckBox4
             // 
             this.sqlcheckBox4.AutoSize = true;
-            this.sqlcheckBox4.Location = new System.Drawing.Point(533, 227);
+            this.sqlcheckBox4.Location = new System.Drawing.Point(533, 248);
             this.sqlcheckBox4.Name = "sqlcheckBox4";
             this.sqlcheckBox4.Size = new System.Drawing.Size(77, 16);
             this.sqlcheckBox4.TabIndex = 24;
@@ -238,7 +240,7 @@
             // sqlcheckBox2
             // 
             this.sqlcheckBox2.AutoSize = true;
-            this.sqlcheckBox2.Location = new System.Drawing.Point(533, 185);
+            this.sqlcheckBox2.Location = new System.Drawing.Point(533, 206);
             this.sqlcheckBox2.Name = "sqlcheckBox2";
             this.sqlcheckBox2.Size = new System.Drawing.Size(77, 16);
             this.sqlcheckBox2.TabIndex = 23;
@@ -248,7 +250,7 @@
             // sqlcheckBox1
             // 
             this.sqlcheckBox1.AutoSize = true;
-            this.sqlcheckBox1.Location = new System.Drawing.Point(533, 162);
+            this.sqlcheckBox1.Location = new System.Drawing.Point(533, 183);
             this.sqlcheckBox1.Name = "sqlcheckBox1";
             this.sqlcheckBox1.Size = new System.Drawing.Size(77, 16);
             this.sqlcheckBox1.TabIndex = 22;
@@ -268,7 +270,7 @@
             // sqlCurrentlabel2
             // 
             this.sqlCurrentlabel2.AutoSize = true;
-            this.sqlCurrentlabel2.Location = new System.Drawing.Point(533, 133);
+            this.sqlCurrentlabel2.Location = new System.Drawing.Point(533, 154);
             this.sqlCurrentlabel2.Name = "sqlCurrentlabel2";
             this.sqlCurrentlabel2.Size = new System.Drawing.Size(41, 12);
             this.sqlCurrentlabel2.TabIndex = 8;
@@ -277,7 +279,7 @@
             // sqlCurrentlabel1
             // 
             this.sqlCurrentlabel1.AutoSize = true;
-            this.sqlCurrentlabel1.Location = new System.Drawing.Point(531, 107);
+            this.sqlCurrentlabel1.Location = new System.Drawing.Point(531, 128);
             this.sqlCurrentlabel1.Name = "sqlCurrentlabel1";
             this.sqlCurrentlabel1.Size = new System.Drawing.Size(41, 12);
             this.sqlCurrentlabel1.TabIndex = 7;
@@ -349,6 +351,14 @@
             this.sqlpictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.sqlpictureBox1_MouseClick);
             this.sqlpictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.sqlpictureBox1_MouseMove);
             // 
+            // sqlLastlabel1
+            // 
+            this.sqlLastlabel1.AutoSize = true;
+            this.sqlLastlabel1.Location = new System.Drawing.Point(533, 44);
+            this.sqlLastlabel1.Name = "sqlLastlabel1";
+            this.sqlLastlabel1.Size = new System.Drawing.Size(0, 12);
+            this.sqlLastlabel1.TabIndex = 28;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -398,6 +408,7 @@
         private System.Windows.Forms.Button SqlNextImg;
         private System.Windows.Forms.Button SqlPrevImg;
         private System.Windows.Forms.PictureBox sqlpictureBox1;
+        private System.Windows.Forms.Label sqlLastlabel1;
     }
 }
 
