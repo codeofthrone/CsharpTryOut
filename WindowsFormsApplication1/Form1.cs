@@ -4,16 +4,22 @@ using System.IO;
 using System.Windows.Forms;
 using excel = Microsoft.Office.Interop.Excel;
 using MySql.Data.MySqlClient;
-
+using System.Net;
+using System.Text;
+using System.Linq;
+using System.Data;
+using Newtonsoft.Json;
+using WindowsFormsApplication1.JsonParser;
 
 namespace WindowsFormsApplication1
 {
+
 
     public partial class Form1 : Form
     {
         private int pCurrentImage;
         private string[] imageFiles;
-        protected excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+        protected excel.Application xlApp = new excel.Application();
         protected excel.Workbook aBook1, newBook;
         protected excel.Worksheet aSheet1;
         protected excel.Range aRange;
@@ -26,6 +32,9 @@ namespace WindowsFormsApplication1
         string tbName = "Original_Small";//資料表名稱
         string tbWrite = "R_Owen";//資料表名稱
 
+        private string m_Username;
+        private string m_Password;
+
         public Form1()
         {
             InitializeComponent();
@@ -34,8 +43,8 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("Excel is not properly installed!!");
                 return;
             }
-            tabControl1.SelectedTab = tabControl1.TabPages["tabPage2"];
-            SqlDataLoadFunction();
+            tabControl1.SelectedTab = tabControl1.TabPages["JIRA"];
+            
         }
 
         private void SqlDataLoadFunction()
@@ -77,8 +86,8 @@ namespace WindowsFormsApplication1
 
             R_reader.Close();
 
-             sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
-             cmd = new MySqlCommand(sqlQueryString, conn);
+            sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
+            cmd = new MySqlCommand(sqlQueryString, conn);
             MySqlDataReader reader = cmd.ExecuteReader(); //execure the reader
             reader.Read();
             sqlcheckBox1.Text = "PB_Cat      : " + reader.GetString(5);
@@ -145,7 +154,7 @@ namespace WindowsFormsApplication1
                 newY -= diffHeight;
                 newY /= scale;
                 // > diff   <diff + image size    
-                if (coordinates.Y  > (int)Math.Abs(diffHeight) && coordinates.Y < (int)Math.Abs(diffHeight)+ displayHeight)
+                if (coordinates.Y > (int)Math.Abs(diffHeight) && coordinates.Y < (int)Math.Abs(diffHeight) + displayHeight)
                 {
                     return new Point((int)newX, (int)newY);
                 }
@@ -173,7 +182,7 @@ namespace WindowsFormsApplication1
         }
 
         private void SelectSource_Click(object sender, EventArgs e)
-		{
+        {
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             string programFiles = Path.GetDirectoryName("C:\\Users\\Owen_Ko\\Documents\\p+\\");
             ///System.Environment.SpecialFolder.MyPictures);
@@ -187,99 +196,99 @@ namespace WindowsFormsApplication1
                 pictureBox1.Enabled = true;
                 ShowCurrentImage();
             }
-        }       
-		private void releaseObject(object obj)
-		{
-			try
-			{
-				System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-				obj = null;
-			}
-			catch (Exception ex)
-			{
-				obj = null;
-				MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
-			}
-			finally
-			{
-				GC.Collect();
-			}
-		}
+        }
+        private void releaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception ex)
+            {
+                obj = null;
+                MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
+            }
+            finally
+            {
+                GC.Collect();
+            }
+        }
         public void SaveCoordinates(int offset, string injectString)
-		{
-			String currentFileName = imageFiles[pCurrentImage];
-			string ExcelFile = Directory.GetCurrentDirectory() + "\\YourWorkbook.xlsx";
+        {
+            String currentFileName = imageFiles[pCurrentImage];
+            string ExcelFile = Directory.GetCurrentDirectory() + "\\YourWorkbook.xlsx";
 
 
-			xlApp.Visible = false;
-			xlApp.DisplayAlerts = false;
+            xlApp.Visible = false;
+            xlApp.DisplayAlerts = false;
 
 
-			if (System.IO.File.Exists(ExcelFile) == false)
-			{
-				xlApp.Workbooks.Add(Type.Missing);
-				aBook1 = xlApp.Workbooks[1];
-				aBook1.Activate();
-			}
-			else
-			{
-				aBook1 = xlApp.Workbooks.Open(ExcelFile);
-			}
-			aSheet1 = (excel.Worksheet)aBook1.Sheets[1];
+            if (System.IO.File.Exists(ExcelFile) == false)
+            {
+                xlApp.Workbooks.Add(Type.Missing);
+                aBook1 = xlApp.Workbooks[1];
+                aBook1.Activate();
+            }
+            else
+            {
+                aBook1 = xlApp.Workbooks.Open(ExcelFile);
+            }
+            aSheet1 = (excel.Worksheet)aBook1.Sheets[1];
 
 
-			aRange = (excel.Range)aSheet1.Cells[1, 1];
-			aRange.Value2 = "FileName";
-			aRange = (excel.Range)aSheet1.Cells[1, 1+offset];
-			aRange.Value2 = "Point"+offset;
+            aRange = (excel.Range)aSheet1.Cells[1, 1];
+            aRange.Value2 = "FileName";
+            aRange = (excel.Range)aSheet1.Cells[1, 1 + offset];
+            aRange.Value2 = "Point" + offset;
 
-			excel.Range last = aSheet1.Cells.SpecialCells(excel.XlCellType.xlCellTypeLastCell, Type.Missing);
-			excel.Range range = aSheet1.get_Range("A1", last);
+            excel.Range last = aSheet1.Cells.SpecialCells(excel.XlCellType.xlCellTypeLastCell, Type.Missing);
+            excel.Range range = aSheet1.get_Range("A1", last);
 
-			int lastUsedRow = last.Row;
-			int lastUsedColumn = last.Column;
+            int lastUsedRow = last.Row;
+            int lastUsedColumn = last.Column;
 
-			if (offset == 1 )
-			{
-				lastUsedRow++;
-			}
-			System.Console.WriteLine("last row {0} ,offset {1}", aSheet1.UsedRange.Rows.Count, offset);
+            if (offset == 1)
+            {
+                lastUsedRow++;
+            }
+            System.Console.WriteLine("last row {0} ,offset {1}", aSheet1.UsedRange.Rows.Count, offset);
 
-			aRange = (excel.Range)aSheet1.Cells[lastUsedRow, 1];
-			aRange.Value2 = Path.GetFileName(currentFileName);
+            aRange = (excel.Range)aSheet1.Cells[lastUsedRow, 1];
+            aRange.Value2 = Path.GetFileName(currentFileName);
 
-			aRange = (excel.Range)aSheet1.Cells[lastUsedRow, ++offset];
-			aRange.Value2 = injectString;
+            aRange = (excel.Range)aSheet1.Cells[lastUsedRow, ++offset];
+            aRange.Value2 = injectString;
 
-			aSheet1.Application.DisplayAlerts = false;
-			aSheet1.Application.AlertBeforeOverwriting = false;
+            aSheet1.Application.DisplayAlerts = false;
+            aSheet1.Application.AlertBeforeOverwriting = false;
 
-			if (System.IO.File.Exists(ExcelFile) == false)
-			{
-				aBook1.SaveAs(ExcelFile, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-			}
-			else
-			{
-				aBook1.Save();
-			}
+            if (System.IO.File.Exists(ExcelFile) == false)
+            {
+                aBook1.SaveAs(ExcelFile, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            }
+            else
+            {
+                aBook1.Save();
+            }
 
-			releaseObject(aSheet1);
-			releaseObject(aBook1);
-			releaseObject(xlApp);
+            releaseObject(aSheet1);
+            releaseObject(aBook1);
+            releaseObject(xlApp);
 
-			xlApp.Quit();
+            xlApp.Quit();
 
-	}
-		public void ShowCurrentImage()
-		{
-			///pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-			pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+        }
+        public void ShowCurrentImage()
+        {
+            ///pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
 
-			pictureBox1.Image  = System.Drawing.Image.FromFile(imageFiles[pCurrentImage]);
-			FileNameLabel.Text = imageFiles[pCurrentImage];
-		}
+            pictureBox1.Image = System.Drawing.Image.FromFile(imageFiles[pCurrentImage]);
+            FileNameLabel.Text = imageFiles[pCurrentImage];
+        }
         private void PrevImg_Click(object sender, EventArgs e)
-		{
+        {
             --pCurrentImage;
             offset = 0;
             if (imageFiles.Length > 0)
@@ -289,7 +298,7 @@ namespace WindowsFormsApplication1
             }
         }
         private void NextImg_Click(object sender, EventArgs e)
-		{
+        {
             ++pCurrentImage;
             offset = 0;
 
@@ -299,25 +308,25 @@ namespace WindowsFormsApplication1
                 ShowCurrentImage();
             }
         }
-		private void pictureBox1_Click(object sender, EventArgs e)
-		{
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
 
-			Point controlRelative = pictureBox1.PointToClient(MousePosition);
-			// Size of the image inside the picture box
-			Size imageSize = pictureBox1.Image.Size;
-			// Size of the picture box
-			Size boxSize = pictureBox1.Size;
+            Point controlRelative = pictureBox1.PointToClient(MousePosition);
+            // Size of the image inside the picture box
+            Size imageSize = pictureBox1.Image.Size;
+            // Size of the picture box
+            Size boxSize = pictureBox1.Size;
 
-			Point imagePosition = new Point((imageSize.Width / boxSize.Width) * controlRelative.X,
-											(imageSize.Height / boxSize.Height) * controlRelative.Y);
+            Point imagePosition = new Point((imageSize.Width / boxSize.Width) * controlRelative.X,
+                                            (imageSize.Height / boxSize.Height) * controlRelative.Y);
 
-			offset++;
-			String pointrecord = imagePosition.X + "," + imagePosition.Y;
-			PointLabel.Text = pointrecord;
-			System.Console.WriteLine(DateTime.Now.ToLongTimeString() + "  " + pointrecord);
-			SaveCoordinates(offset, pointrecord);
+            offset++;
+            String pointrecord = imagePosition.X + "," + imagePosition.Y;
+            PointLabel.Text = pointrecord;
+            System.Console.WriteLine(DateTime.Now.ToLongTimeString() + "  " + pointrecord);
+            SaveCoordinates(offset, pointrecord);
 
-		}
+        }
         private void tabControl1_KeyDown(object sender, KeyEventArgs e)
         {
             if (tabControl1.SelectedTab == tabControl1.TabPages["tabPage1"])
@@ -335,7 +344,7 @@ namespace WindowsFormsApplication1
                         break;
                 }
             }
-            else if (tabControl1.SelectedTab == tabControl1.TabPages["tabPage2"])
+            else if (tabControl1.SelectedTab == tabControl1.TabPages["Mysql"])
             {
                 switch (e.KeyCode)
                 {
@@ -391,7 +400,7 @@ namespace WindowsFormsApplication1
                         {
                             sqlcheckBox4.Checked = true;
                         }
-                        break;                  
+                        break;
                     case Keys.D5:
                         if (sqlcheckBox5.Checked)
                         {
@@ -431,7 +440,7 @@ namespace WindowsFormsApplication1
             sqlLastlabel1.Text = "";
 
 
-            string connStr = "server=" + dbHost + ";uid=" + dbUser + ";pwd=" + dbPass + ";database=" + dbName+ ";Allow User Variables=True";
+            string connStr = "server=" + dbHost + ";uid=" + dbUser + ";pwd=" + dbPass + ";database=" + dbName + ";Allow User Variables=True";
             SqlDBinfo.Text = connStr;
             MySqlConnection conn = new MySqlConnection(connStr);
             MySqlCommand command = conn.CreateCommand();
@@ -444,95 +453,33 @@ namespace WindowsFormsApplication1
             int sqltbsize = reader.GetInt16(0);
             if (sqlimagecount <= 0)
             {
-                sqlimagecount =sqltbsize;
+                sqlimagecount = sqltbsize;
             }
             //Console.WriteLine("{0}  {1}", sqlimagecount, sqltbsize);
             reader.Close();
             SqlDataLoadFunction();
-            //if (sqlimagecount >= 1 || sqlimagecount == sqltbsize )
-            //{
-            //    sqlQueryString = "select * from " + tbWrite + "  WHERE SourceSN='" + sqlimagecount + "'";
-            //    cmd = new MySqlCommand(sqlQueryString, conn);
-            //    MySqlDataReader R_reader = cmd.ExecuteReader(); //execure the reader
-            //    R_reader.Read();
-            //    if (R_reader.HasRows)
-            //    {
-            //        sqlcheckBox1.Checked = R_reader.GetBoolean(6);
-            //        sqlcheckBox2.Checked = R_reader.GetBoolean(7);
-            //        sqlcheckBox3.Checked = R_reader.GetBoolean(8);
-            //        sqlcheckBox4.Checked = R_reader.GetBoolean(9);
-            //        sqlcheckBox5.Checked = R_reader.GetBoolean(10);
-            //        sqlcheckBox6.Checked = R_reader.GetBoolean(11);
-            //    }
-
-            //    R_reader.Close();
-
-            //    sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
-            //    cmd = new MySqlCommand(sqlQueryString, conn);
-            //    reader = cmd.ExecuteReader(); //execure the reader
-            //    reader.Read();
-
-            //    sqlcheckBox1.Text = "PB_Cat      : " + reader.GetString(5);
-            //    sqlcheckBox2.Text = "PB_Dog     :  " + reader.GetString(6);
-            //    sqlcheckBox3.Text = "PB_Flower : " + reader.GetString(7);
-            //    sqlcheckBox4.Text = "PB_Indoor : " + reader.GetString(8);
-            //    sqlcheckBox5.Text = "PB_Meal    : " + reader.GetString(9);
-            //    sqlcheckBox6.Text = "PB_Person : " + reader.GetString(10);
-            //    string ImageURI = "http://10.116.136.13/~CL/IMAGES/" + reader.GetString(1) + "/" + reader.GetString(2);
-            //    System.Net.WebRequest request = System.Net.WebRequest.Create(ImageURI);
-            //    System.Net.WebResponse response = request.GetResponse();
-            //    System.IO.Stream responseStream = response.GetResponseStream();
-            //    Bitmap bitmap2 = new Bitmap(responseStream);
-
-            //    sqlpictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            //    sqlpictureBox1.Image = bitmap2;
-            //    reader.Close();
-            //    conn.Close();
-            //}
-            //else
-            //{
-            //    sqlpictureBox1.Visible = false;
-            //    sqlImageLabel1.Text = "Already at first image!!!";
-            //    sqlImageLabel1.Show();
-            //    SqlPrevImg.Enabled = false;
-            //    sqlimagecount--;
-
-            //}
-            //sqlCurrentlabel1.Text = "Current image : " + sqlimagecount;
-            //sqlCurrentlabel2.Text = "Remain image : " + (sqltbsize - sqlimagecount);
 
         }
 
         private void SqlNextImg_Click(object sender, EventArgs e)
-		{
+        {
             string connStr = "server=" + dbHost + ";uid=" + dbUser + ";pwd=" + dbPass + ";database=" + dbName;
             SqlDBinfo.Text = connStr;
             MySqlConnection conn = new MySqlConnection(connStr);
             MySqlCommand command = conn.CreateCommand();
             conn.Open();
 
-            //MySqlConnection MyConn4 = new MySqlConnection(connStr);
-            //string sqlQueryString1 = "select * from " + tbWrite + "  WHERE SerialNumber='" + sqlimagecount + "'";
-            //MySqlCommand cmd = new MySqlCommand(sqlQueryString1, MyConn4);
-            //MyConn4.Open();
-            //MySqlDataReader readerquery = cmd.ExecuteReader(); //execure the reader
+            sqlLastlabel1.Text = "Cat :" + sqlcheckBox1.Checked + "             " +
+"Dog : " + sqlcheckBox2.Checked + "\n" +
+"Flower : " + sqlcheckBox3.Checked + "      " +
+"Indoor : " + sqlcheckBox4.Checked + "\n" +
+"Meal : " + sqlcheckBox5.Checked + "          " +
+"Person : " + sqlcheckBox6.Checked + "\n";
 
-            //readerquery.Read();
-            //if (!readerquery.HasRows)
-            //{
-                sqlLastlabel1.Text = "Cat :" + sqlcheckBox1.Checked + "             " +
-    "Dog : " + sqlcheckBox2.Checked + "\n" +
-    "Flower : " + sqlcheckBox3.Checked + "      " +
-    "Indoor : " + sqlcheckBox4.Checked + "\n" +
-    "Meal : " + sqlcheckBox5.Checked + "          " +
-    "Person : " + sqlcheckBox6.Checked + "\n";
-            //}
-            //readerquery.Close();
-            //MyConn4.Close();
 
             try
             {
-                var selectString = "SELECT * FROM " + tbWrite + " WHERE `SourceSN` =  '"+ sqlimagecount+"' ";
+                var selectString = "SELECT * FROM " + tbWrite + " WHERE `SourceSN` =  '" + sqlimagecount + "' ";
                 var myCommand = new MySqlCommand(selectString, conn);
                 MySqlDataReader exist_reader = myCommand.ExecuteReader();
 
@@ -551,7 +498,7 @@ namespace WindowsFormsApplication1
                         readerinsert.Read();
 
                         //This is my insert query in which i am taking input from the user through windows forms
-                        string insert_sql = "INSERT INTO R_Owen(`SourceSN`, `Folder`, `FileName`, `Threshold`,  "+
+                        string insert_sql = "INSERT INTO R_Owen(`SourceSN`, `Folder`, `FileName`, `Threshold`,  " +
                             "`Cat_Result`, `Dog_Result`, `Flower_Result`, `Indoor_Result`, `Meal_Result`, `Person_Result`) VALUES(" +
                             "@SN ,@Folder,@FileName,@Threshold,@Cat,@Dog,@Flower,@Indoor,@Meal,@Person   )";
                         //This is  MySqlConnection here i have created the object and pass my connection string.
@@ -589,11 +536,9 @@ namespace WindowsFormsApplication1
                     try
                     {
 
-                        //This is my update query in which i am taking input from the user through windows forms and update the record.
-
                         string sqlupdate = "UPDATE `DeepLearning`.`R_Owen` SET " +
-                            " `Cat_Result` = @Cat, `Dog_Result` = @Dog, `Flower_Result` = @Flower, "+
-                            " `Indoor_Result` = @Indoor, `Meal_Result` = @Meal, `Person_Result` = @Person "+
+                            " `Cat_Result` = @Cat, `Dog_Result` = @Dog, `Flower_Result` = @Flower, " +
+                            " `Indoor_Result` = @Indoor, `Meal_Result` = @Meal, `Person_Result` = @Person " +
                             " WHERE `R_Owen`.`SourceSN` = @SN;";
                         MySqlConnection MyConn2 = new MySqlConnection(connStr);
                         MySqlCommand MyCommand2 = new MySqlCommand(sqlupdate, MyConn2);
@@ -636,7 +581,7 @@ namespace WindowsFormsApplication1
             sqlimagecount++;
 
 
-            conn.Open();            
+            conn.Open();
             string sqlQueryString = "select count(SerialNumber) from " + tbName;
             //Console.WriteLine(sqlQueryString);
             MySqlCommand cmd = new MySqlCommand(sqlQueryString, conn);
@@ -647,67 +592,22 @@ namespace WindowsFormsApplication1
 
             if (sqlimagecount > sqltbsize)
             {
-                sqlimagecount=1;
+                sqlimagecount = 1;
             }
-            // inser or update latest
+
             SqlDataLoadFunction();
-            //if (sqlimagecount >= 1 || sqlimagecount <= sqltbsize)
-            //{
-            //    sqlQueryString = "select * from " + tbWrite + "  WHERE SourceSN='" + sqlimagecount + "'";
-            //    cmd = new MySqlCommand(sqlQueryString, conn);
-            //    MySqlDataReader R_reader = cmd.ExecuteReader(); //execure the reader
-            //    R_reader.Read();
-            //    if (R_reader.HasRows)
-            //    {
-            //        sqlcheckBox1.Checked = R_reader.GetBoolean(6);
-            //        sqlcheckBox2.Checked = R_reader.GetBoolean(7);
-            //        sqlcheckBox3.Checked = R_reader.GetBoolean(8);
-            //        sqlcheckBox4.Checked = R_reader.GetBoolean(9);
-            //        sqlcheckBox5.Checked = R_reader.GetBoolean(10);
-            //        sqlcheckBox6.Checked = R_reader.GetBoolean(11);
-            //    }
 
-            //    R_reader.Close();
-
-            //    sqlQueryString = "select * from " + tbName + "  WHERE SerialNumber='" + sqlimagecount + "'";
-            //    cmd = new MySqlCommand(sqlQueryString, conn);
-            //    reader = cmd.ExecuteReader(); //execure the reader
-            //    reader.Read();
-
-            //    sqlcheckBox1.Text = "PB_Cat      : " + reader.GetString(5);
-            //    sqlcheckBox2.Text = "PB_Dog     :  " + reader.GetString(6);
-            //    sqlcheckBox3.Text = "PB_Flower : " + reader.GetString(7);
-            //    sqlcheckBox4.Text = "PB_Indoor : " + reader.GetString(8);
-            //    sqlcheckBox5.Text = "PB_Meal    : " + reader.GetString(9);
-            //    sqlcheckBox6.Text = "PB_Person : " + reader.GetString(10);
-            //    string ImageURI = "http://10.116.136.13/~CL/IMAGES/" + reader.GetString(1) + "/" + reader.GetString(2);
-            //    System.Net.WebRequest request = System.Net.WebRequest.Create(ImageURI);
-            //    System.Net.WebResponse response = request.GetResponse();
-            //    System.IO.Stream responseStream = response.GetResponseStream();
-            //    Bitmap bitmap2 = new Bitmap(responseStream);
-
-            //    sqlpictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            //    sqlpictureBox1.Image = bitmap2;
-            //    reader.Close();
-            //    conn.Close();
-
-            //}
-            //else
-            //{
-            //    sqlpictureBox1.Visible = false;
-            //    sqlImageLabel1.Text = "No more image!!!";
-            //    sqlImageLabel1.Show();
-            //    SqlNextImg.Enabled = false;
-            //    sqlimagecount=1;
-            //}
-            //sqlCurrentlabel1.Text = "Current image : " + sqlimagecount;
-            //sqlCurrentlabel2.Text = "Remain image : " + (sqltbsize - sqlimagecount);
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-        }
+            if (tabControl1.SelectedTab == tabControl1.TabPages["Mysql"])
+            {
 
+                SqlDataLoadFunction();
+            }
+        }
+    
         private void sqlpictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             Point sqlcontrolRelative = sqlpictureBox1.PointToClient(MousePosition);
@@ -741,6 +641,13 @@ namespace WindowsFormsApplication1
 
         }
 
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
 		{
 			Point controlRelative = pictureBox1.PointToClient(MousePosition);
@@ -748,11 +655,134 @@ namespace WindowsFormsApplication1
 			Size imageSize = pictureBox1.Image.Size;
 			// Size of the picture box
 			Size boxSize = pictureBox1.Size;
-
 			Point imagePosition = new Point((imageSize.Width / boxSize.Width) * controlRelative.X,
 											(imageSize.Height / boxSize.Height) * controlRelative.Y);
 			PointLabel.Text = string.Format("X: {0}, Y: {1}", (int)imagePosition.X, (int)imagePosition.Y);
 		}
-	}
+        private string GetEncodedCredentials()
+        {
+            m_Username = jiratextBox1.Text;
+            m_Password = jiratextBox2.Text;
+            string mergedCredentials = string.Format("{0}:{1}", m_Username, m_Password);
+            byte[] byteCredentials = UTF8Encoding.UTF8.GetBytes(mergedCredentials);
+            return Convert.ToBase64String(byteCredentials);
+        }
+        protected string RunQuery(string resource,string argument = null,string data = null,string method = "GET")
+        {
+            JIRAtoolStripStatusLabel1.Text = "";
+
+            try
+            {
+                string m_BaseUrl = "http://jira.sw.studio.htc.com/rest/api/latest/issue/";
+                ///string m_BaseUrl = "https://jira.atlassian.com/rest/api/latest/issue/";
+                string url = string.Format("{0}{1}?expand=changelog&fields=summary", m_BaseUrl, resource);
+                Console.WriteLine(url);
+                if (argument != null)
+                {
+                    url = string.Format("{0}{1}/", url, argument);
+                }
+
+                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+                request.ContentType = "application/json";
+                request.Method = method;
+
+                if (data != null)
+                {
+                    using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+                    {
+                        writer.Write(data);
+                    }
+                }
+                string base64Credentials = GetEncodedCredentials();
+                request.Headers.Add("Authorization", "Basic " + base64Credentials);
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                System.Console.WriteLine("fail message :" + response.StatusDescription);
+                if (response.StatusDescription.Equals("OK"))
+                    JIRAtoolStripStatusLabel2.Text = "連線成功";
+                //if (response.StatusDescription.Equals("Unauthorized"))
+                 //   JIRAtoolStripStatusLabel2.Text = "Accout/Password error";
+                //else if (response.StatusDescription.Equals("Not Found") || response.StatusDescription.Equals("Method Not Allowed"))
+                //    JIRAtoolStripStatusLabel2.Text = "JIRA log not found";
+                //else
+                 //   JIRAtoolStripStatusLabel2.Text = "Connect Fail";
+
+                string result = string.Empty;
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    result = reader.ReadToEnd();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                JIRAtoolStripStatusLabel1.Text = ex.Message;
+                if (ex.Message.Equals("遠端伺服器傳回一個錯誤: (404) 找不到。"))
+                {
+                    JIRAtoolStripStatusLabel2.Text = "請再一次檢查JIRA ID 。";
+                }
+                else if (ex.Message.Equals("遠端伺服器傳回一個錯誤: (401) 未經授權。"))
+                {
+                    JIRAtoolStripStatusLabel2.Text = "請再一次檢查 ID / PW ！";
+                }
+                else if (ex.Message.Contains("403"))
+                {
+                    JIRAtoolStripStatusLabel2.Text = "請用網頁重新登入後再次搜尋。 ";
+                }
+                Console.WriteLine(ex.Message);
+                return "FAIL";
+            }
+
+        }
+
+        private void JIRA_button1_Click(object sender, EventArgs e)
+        {
+            string jsonText = RunQuery(jiratextBox3.Text);
+            listView1.Clear();
+
+            if (jsonText != "FAIL")
+            {
+                JiraChangeLog.Rootobject Jirajson = JsonConvert.DeserializeObject<JiraChangeLog.Rootobject>(jsonText);
+                listView1.View = View.Details;
+                listView1.GridLines = true;
+                listView1.FullRowSelect = true;
+                listView1.GridLines = true;
+                listView1.Columns.Add("Id", 50);
+                listView1.Columns.Add("Created", 100);
+                listView1.Columns.Add("Author", 100);
+                listView1.Columns.Add("Item", 100);
+                listView1.Columns.Add("From String", 100);
+                listView1.Columns.Add("To String", 100);
+                if (Jirajson.changelog.maxResults != 0)
+                {
+                    foreach (var history in Jirajson.changelog.histories)
+                    {
+                        foreach (var item in history.items)
+                        {
+                            string[] arr = new string[6];
+                            arr[0] = history.id.ToString();
+                            arr[1] = history.created.ToString();
+                            arr[2] = history.author.displayName;
+                            arr[3] = item.field;
+                            arr[4] = item.fromString;
+                            arr[5] = item.toString;
+                            listView1.Items.Add(new ListViewItem(arr));
+
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void jiratextBox3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                JIRA_button1.PerformClick();
+            }
+        }
+
+
+    }
 }
 

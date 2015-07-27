@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.PointLabel = new System.Windows.Forms.Label();
@@ -39,6 +40,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.sqlLastlabel1 = new System.Windows.Forms.Label();
             this.sqlcheckBox5 = new System.Windows.Forms.CheckBox();
             this.sqlcheckBox6 = new System.Windows.Forms.CheckBox();
             this.sqlcheckBox3 = new System.Windows.Forms.CheckBox();
@@ -55,18 +57,44 @@
             this.SqlNextImg = new System.Windows.Forms.Button();
             this.SqlPrevImg = new System.Windows.Forms.Button();
             this.sqlpictureBox1 = new System.Windows.Forms.PictureBox();
-            this.sqlLastlabel1 = new System.Windows.Forms.Label();
+            this.JIRA = new System.Windows.Forms.TabPage();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.JIRA_button1 = new System.Windows.Forms.Button();
+            this.jiralabel3 = new System.Windows.Forms.Label();
+            this.jiratextBox3 = new System.Windows.Forms.TextBox();
+            this.statusStrip3 = new System.Windows.Forms.StatusStrip();
+            this.JIRAtoolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.jiralabel2 = new System.Windows.Forms.Label();
+            this.jiralabel1 = new System.Windows.Forms.Label();
+            this.jiratextBox2 = new System.Windows.Forms.TextBox();
+            this.jiratextBox1 = new System.Windows.Forms.TextBox();
+            this.jsonConvertBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.jArrayBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.jObjectBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.jValueBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.jValueBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.jsonConverterBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.JIRAtoolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sqlpictureBox1)).BeginInit();
+            this.JIRA.SuspendLayout();
+            this.statusStrip3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.jsonConvertBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jArrayBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jObjectBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jValueBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jValueBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jsonConverterBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.JIRA);
             this.tabControl1.Location = new System.Drawing.Point(3, 1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -194,8 +222,16 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(738, 421);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Mysql";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // sqlLastlabel1
+            // 
+            this.sqlLastlabel1.AutoSize = true;
+            this.sqlLastlabel1.Location = new System.Drawing.Point(533, 44);
+            this.sqlLastlabel1.Name = "sqlLastlabel1";
+            this.sqlLastlabel1.Size = new System.Drawing.Size(0, 12);
+            this.sqlLastlabel1.TabIndex = 28;
             // 
             // sqlcheckBox5
             // 
@@ -351,13 +387,146 @@
             this.sqlpictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.sqlpictureBox1_MouseClick);
             this.sqlpictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.sqlpictureBox1_MouseMove);
             // 
-            // sqlLastlabel1
+            // JIRA
             // 
-            this.sqlLastlabel1.AutoSize = true;
-            this.sqlLastlabel1.Location = new System.Drawing.Point(533, 44);
-            this.sqlLastlabel1.Name = "sqlLastlabel1";
-            this.sqlLastlabel1.Size = new System.Drawing.Size(0, 12);
-            this.sqlLastlabel1.TabIndex = 28;
+            this.JIRA.Controls.Add(this.listView1);
+            this.JIRA.Controls.Add(this.JIRA_button1);
+            this.JIRA.Controls.Add(this.jiralabel3);
+            this.JIRA.Controls.Add(this.jiratextBox3);
+            this.JIRA.Controls.Add(this.statusStrip3);
+            this.JIRA.Controls.Add(this.jiralabel2);
+            this.JIRA.Controls.Add(this.jiralabel1);
+            this.JIRA.Controls.Add(this.jiratextBox2);
+            this.JIRA.Controls.Add(this.jiratextBox1);
+            this.JIRA.Location = new System.Drawing.Point(4, 22);
+            this.JIRA.Name = "JIRA";
+            this.JIRA.Size = new System.Drawing.Size(738, 421);
+            this.JIRA.TabIndex = 2;
+            this.JIRA.Text = "JIRA";
+            this.JIRA.UseVisualStyleBackColor = true;
+            this.JIRA.Click += new System.EventHandler(this.tabPage3_Click);
+            // 
+            // listView1
+            // 
+            this.listView1.Location = new System.Drawing.Point(6, 32);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(727, 364);
+            this.listView1.TabIndex = 9;
+            this.listView1.TileSize = new System.Drawing.Size(10, 50);
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Tile;
+            // 
+            // JIRA_button1
+            // 
+            this.JIRA_button1.Location = new System.Drawing.Point(476, 4);
+            this.JIRA_button1.Name = "JIRA_button1";
+            this.JIRA_button1.Size = new System.Drawing.Size(75, 23);
+            this.JIRA_button1.TabIndex = 8;
+            this.JIRA_button1.Text = "Search";
+            this.JIRA_button1.UseVisualStyleBackColor = true;
+            this.JIRA_button1.Click += new System.EventHandler(this.JIRA_button1_Click);
+            // 
+            // jiralabel3
+            // 
+            this.jiralabel3.AutoSize = true;
+            this.jiralabel3.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.jiralabel3.Location = new System.Drawing.Point(283, 4);
+            this.jiralabel3.Name = "jiralabel3";
+            this.jiralabel3.Size = new System.Drawing.Size(60, 16);
+            this.jiralabel3.TabIndex = 7;
+            this.jiralabel3.Text = "JIRA ID";
+            // 
+            // jiratextBox3
+            // 
+            this.jiratextBox3.HideSelection = false;
+            this.jiratextBox3.Location = new System.Drawing.Point(349, 4);
+            this.jiratextBox3.Name = "jiratextBox3";
+            this.jiratextBox3.Size = new System.Drawing.Size(100, 22);
+            this.jiratextBox3.TabIndex = 6;
+            this.jiratextBox3.Text = "UT-75";
+            this.jiratextBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.jiratextBox3_KeyDown);
+            // 
+            // statusStrip3
+            // 
+            this.statusStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.JIRAtoolStripStatusLabel1,
+            this.JIRAtoolStripStatusLabel2});
+            this.statusStrip3.Location = new System.Drawing.Point(0, 399);
+            this.statusStrip3.Name = "statusStrip3";
+            this.statusStrip3.Size = new System.Drawing.Size(738, 22);
+            this.statusStrip3.TabIndex = 5;
+            this.statusStrip3.Text = "statusStrip3";
+            // 
+            // JIRAtoolStripStatusLabel1
+            // 
+            this.JIRAtoolStripStatusLabel1.Name = "JIRAtoolStripStatusLabel1";
+            this.JIRAtoolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            // 
+            // jiralabel2
+            // 
+            this.jiralabel2.AutoSize = true;
+            this.jiralabel2.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.jiralabel2.Location = new System.Drawing.Point(141, 4);
+            this.jiralabel2.Name = "jiralabel2";
+            this.jiralabel2.Size = new System.Drawing.Size(30, 16);
+            this.jiralabel2.TabIndex = 4;
+            this.jiralabel2.Text = "PW";
+            // 
+            // jiralabel1
+            // 
+            this.jiralabel1.AutoSize = true;
+            this.jiralabel1.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.jiralabel1.Location = new System.Drawing.Point(5, 4);
+            this.jiralabel1.Name = "jiralabel1";
+            this.jiralabel1.Size = new System.Drawing.Size(24, 16);
+            this.jiralabel1.TabIndex = 3;
+            this.jiralabel1.Text = "ID";
+            // 
+            // jiratextBox2
+            // 
+            this.jiratextBox2.Location = new System.Drawing.Point(177, 4);
+            this.jiratextBox2.Name = "jiratextBox2";
+            this.jiratextBox2.PasswordChar = '*';
+            this.jiratextBox2.Size = new System.Drawing.Size(100, 22);
+            this.jiratextBox2.TabIndex = 2;
+            this.jiratextBox2.Text = "Th1nkSl@w";
+            // 
+            // jiratextBox1
+            // 
+            this.jiratextBox1.Location = new System.Drawing.Point(35, 4);
+            this.jiratextBox1.Name = "jiratextBox1";
+            this.jiratextBox1.Size = new System.Drawing.Size(100, 22);
+            this.jiratextBox1.TabIndex = 1;
+            this.jiratextBox1.Text = "owen_ko";
+            // 
+            // jsonConvertBindingSource
+            // 
+            this.jsonConvertBindingSource.DataSource = typeof(Newtonsoft.Json.JsonConvert);
+            // 
+            // jArrayBindingSource
+            // 
+            this.jArrayBindingSource.DataSource = typeof(Newtonsoft.Json.Linq.JArray);
+            // 
+            // jObjectBindingSource
+            // 
+            this.jObjectBindingSource.DataSource = typeof(Newtonsoft.Json.Linq.JObject);
+            // 
+            // jValueBindingSource
+            // 
+            this.jValueBindingSource.DataSource = typeof(Newtonsoft.Json.Linq.JValue);
+            // 
+            // jValueBindingSource1
+            // 
+            this.jValueBindingSource1.DataSource = typeof(Newtonsoft.Json.Linq.JValue);
+            // 
+            // jsonConverterBindingSource
+            // 
+            this.jsonConverterBindingSource.DataSource = typeof(Newtonsoft.Json.JsonConverter);
+            // 
+            // JIRAtoolStripStatusLabel2
+            // 
+            this.JIRAtoolStripStatusLabel2.Name = "JIRAtoolStripStatusLabel2";
+            this.JIRAtoolStripStatusLabel2.Size = new System.Drawing.Size(0, 17);
             // 
             // Form1
             // 
@@ -375,6 +544,16 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sqlpictureBox1)).EndInit();
+            this.JIRA.ResumeLayout(false);
+            this.JIRA.PerformLayout();
+            this.statusStrip3.ResumeLayout(false);
+            this.statusStrip3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.jsonConvertBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jArrayBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jObjectBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jValueBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jValueBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jsonConverterBindingSource)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -409,6 +588,24 @@
         private System.Windows.Forms.Button SqlPrevImg;
         private System.Windows.Forms.PictureBox sqlpictureBox1;
         private System.Windows.Forms.Label sqlLastlabel1;
+        private System.Windows.Forms.TabPage JIRA;
+        private System.Windows.Forms.TextBox jiratextBox2;
+        private System.Windows.Forms.TextBox jiratextBox1;
+        private System.Windows.Forms.Label jiralabel2;
+        private System.Windows.Forms.Label jiralabel1;
+        private System.Windows.Forms.Label jiralabel3;
+        private System.Windows.Forms.TextBox jiratextBox3;
+        private System.Windows.Forms.StatusStrip statusStrip3;
+        private System.Windows.Forms.Button JIRA_button1;
+        private System.Windows.Forms.BindingSource jArrayBindingSource;
+        private System.Windows.Forms.BindingSource jValueBindingSource;
+        private System.Windows.Forms.BindingSource jObjectBindingSource;
+        private System.Windows.Forms.BindingSource jValueBindingSource1;
+        private System.Windows.Forms.BindingSource jsonConverterBindingSource;
+        private System.Windows.Forms.BindingSource jsonConvertBindingSource;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ToolStripStatusLabel JIRAtoolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel JIRAtoolStripStatusLabel2;
     }
 }
 
